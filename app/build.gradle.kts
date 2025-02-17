@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace="com.ideasapp.factorial"
-    compileSdk=34
+    compileSdk=35
 
     defaultConfig {
         applicationId="com.ideasapp.factorial"
@@ -30,10 +30,13 @@ android {
     kotlinOptions {
         jvmTarget="1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
-
+    implementation(libs.viewModel)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
