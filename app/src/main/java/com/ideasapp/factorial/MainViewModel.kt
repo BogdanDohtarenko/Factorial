@@ -6,31 +6,21 @@ import androidx.lifecycle.ViewModel
 
 class MainViewModel: ViewModel() {
 
-    private val _error = MutableLiveData<Boolean>()
-    val error: LiveData<Boolean>
-        get() = _error
-
-    private val _factorial = MutableLiveData<String>()
-    val factorial: LiveData<String>
-        get() = _factorial
-
-    private val _progress = MutableLiveData<Boolean>()
-    val progress: LiveData<Boolean>
-        get() = _progress
+    private val _state = MutableLiveData<ScreenState>()
+    val state: LiveData<ScreenState>
+        get() = _state
 
     fun calculateFactorial(value: String?) {
         if(value.isNullOrBlank()) {
-            _progress.value = false
-            _error.value = true
+            _state.value = ScreenState(error = true)
             return
         }
-        _progress.value = true
+        _state.value = ScreenState(progress = true)
         val number = value.toLong()
         var result: Long = 1
         for(i in 1..number) {
             result *= i
         }
-        _progress.value = false
-        _factorial.value = result.toString()
+        _state.value = ScreenState(progress = false, factorial = result.toString())
     }
 }
