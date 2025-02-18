@@ -18,16 +18,19 @@ class MainViewModel: ViewModel() {
     val progress: LiveData<Boolean>
         get() = _progress
 
-    private fun calculateFactorial(value: String?) {
+    fun calculateFactorial(value: String?) {
         if(value.isNullOrBlank()) {
+            _progress.value = false
             _error.value = true
             return
         }
         _progress.value = true
         val number = value.toLong()
-        var result = 1
-///CALCULATE
+        var result: Long = 1
+        for(i in 1..number) {
+            result *= i
+        }
         _progress.value = false
-        _factorial.value = number.toString()
+        _factorial.value = result.toString()
     }
 }
