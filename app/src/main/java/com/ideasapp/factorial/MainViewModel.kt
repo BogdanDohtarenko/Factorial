@@ -12,15 +12,15 @@ class MainViewModel: ViewModel() {
 
     fun calculateFactorial(value: String?) {
         if(value.isNullOrBlank()) {
-            _state.value = ScreenState(error = true)
+            _state.value = ScreenState.Error()
             return
         }
-        _state.value = ScreenState(progress = true)
+        _state.value = ScreenState.Error()
         val number = value.toLong()
         var result: Long = 1
         for(i in 1..number) {
             result *= i
         }
-        _state.value = ScreenState(progress = false, factorial = result.toString())
+        _state.value = ScreenState.Result(factorial = result.toString())
     }
 }
