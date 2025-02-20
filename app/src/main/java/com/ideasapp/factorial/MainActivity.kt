@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.ideasapp.factorial.databinding.ActivityMainBinding
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         observeViewModel()
         binding.buttonCalculate.setOnClickListener {
-            viewModel.calculateFactorial(binding.editTextNumber.text.toString())
+            viewModel.calculate(binding.editTextNumber.text.toString())
         }
     }
 
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                     binding.progressBarLoading.visibility = View.VISIBLE
                     binding.buttonCalculate.isEnabled = false
                 }
-                is ScreenState.Result -> {
+                is ScreenState.Factorial -> {
                     binding.progressBarLoading.visibility = View.GONE
                     binding.buttonCalculate.isEnabled = true
                     binding.textViewFactorial.text = it.factorial

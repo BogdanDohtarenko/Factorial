@@ -3,6 +3,13 @@ package com.ideasapp.factorial
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.math.BigInteger
+import kotlin.concurrent.thread
+import kotlin.coroutines.suspendCoroutine
 
 class MainViewModel: ViewModel() {
 
@@ -10,17 +17,23 @@ class MainViewModel: ViewModel() {
     val state: LiveData<ScreenState>
         get() = _state
 
-    fun calculateFactorial(value: String?) {
+    fun calculate(value: String?) {
         if(value.isNullOrBlank()) {
-            _state.value = ScreenState.Error()
+            _state.value = ScreenState.Error
             return
         }
-        _state.value = ScreenState.Progress()
-        val number = value.toLong()
-        var result: Long = 1
-        for(i in 1..number) {
-            result *= i
+        _state.value = ScreenState.Progress
+        viewModelScope.launch {
+            _state.value = ScreenState.Factorial(factorial = calculateFactorial(value))
         }
-        _state.value = ScreenState.Result(factorial = result.toString())
+    }
+
+    private suspend fun calculateFactorial(value: String): String {
+        return withContext(Dispatchers.Default) {
+            val number = value.toInt()
+            var result = BigInteger.ONE
+            for(i in 1..number) { result *= i.toBigInteger() }
+            result.toString()
+        }
     }
 }
