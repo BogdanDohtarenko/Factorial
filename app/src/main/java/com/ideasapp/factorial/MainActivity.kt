@@ -33,18 +33,20 @@ class MainActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.state.observe(this) {
             when(it) {
-                is Error -> {
+                is ScreenState.Error -> {
                     Toast.makeText(
                         this,
                         "You did not entered value",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                is Progress -> {
+                is ScreenState.Progress-> {
                     binding.progressBarLoading.visibility = View.VISIBLE
                     binding.buttonCalculate.isEnabled = false
                 }
-                is Result -> {
+                is ScreenState.Result -> {
+                    binding.progressBarLoading.visibility = View.GONE
+                    binding.buttonCalculate.isEnabled = true
                     binding.textViewFactorial.text = it.factorial
                 }
             }

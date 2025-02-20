@@ -15,7 +15,7 @@ class MainViewModel: ViewModel() {
             _state.value = ScreenState.Error()
             return
         }
-        _state.value = ScreenState.Error()
+        _state.value = ScreenState.Progress()
         val number = value.toLong()
         var result: Long = 1
         for(i in 1..number) {
